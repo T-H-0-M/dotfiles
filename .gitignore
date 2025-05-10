@@ -1,0 +1,10 @@
+.DS_Store
+nix/flake.lock
+.env
+.claude/debug
+.claude/file-history/
+.claude/projects
+.claude/shell-snapshots
+.claude/statsig
+.claude/todos
+.claude/history.jsonl
