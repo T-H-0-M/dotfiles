@@ -302,6 +302,9 @@ return {
 							client.server_capabilities.documentFormattingProvider = false
 							client.server_capabilities.documentRangeFormattingProvider = false
 
+							-- Disable semantic tokens to use Tree-sitter highlighting
+							client.server_capabilities.semanticTokensProvider = nil
+
 							-- Enable inlay hints if supported
 							if client.server_capabilities.inlayHintProvider then
 								vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
