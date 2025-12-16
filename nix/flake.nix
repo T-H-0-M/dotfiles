@@ -18,6 +18,11 @@
     let
       configuration =
         { pkgs, config, ... }:
+        let
+          eas-cli = pkgs.writeShellScriptBin "eas" ''
+            exec ${pkgs.nodejs_22}/bin/npx eas-cli "$@"
+          '';
+        in
         {
           nixpkgs.config.allowUnfree = true;
           environment.systemPackages = [
@@ -27,7 +32,6 @@
             pkgs.git
             pkgs.fzf
             pkgs.ripgrep
-            pkgs.nodejs_22
             pkgs.lazygit
             pkgs.zsh-powerlevel10k
             pkgs.qmk
@@ -39,6 +43,7 @@
             pkgs.claude-code
             pkgs.gemini-cli
             pkgs.nodePackages_latest.aws-cdk
+            eas-cli
             pkgs.findutils
           ];
 
@@ -52,6 +57,8 @@
               "awscli"
               "go"
               "gh"
+              "node"
+              "tailscale"
             ];
             casks = [
               "firefox"
