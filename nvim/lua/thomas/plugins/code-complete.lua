@@ -6,7 +6,9 @@ return {
 			tex = false,
 			markdown = false,
 			mdx = false,
-			go = false,
 		}
+
+		-- Toggle Windsurf AI completions
+		vim.keymap.set("n", "<leader>ai", "<cmd>CodeiumToggle<cr>", { desc = "Toggle Windsurf AI completions" })
 	end,
 }
