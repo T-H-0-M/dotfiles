@@ -156,6 +156,7 @@ create_symlink "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc" "Zsh config"
 create_symlink "$DOTFILES_DIR/nix" "$HOME/.config/nix" "Nix config"
 create_symlink "$DOTFILES_DIR/aerospace" "$HOME/.config/aerospace" "AeroSpace config"
 create_symlink "$DOTFILES_DIR/.claude" "$HOME/.claude" "Claude Code config"
+create_symlink "$DOTFILES_DIR/.opencode" "$HOME/.config/opencode" "OpenCode config"
 
 # Install Oh-My-Zsh
 print_section "Installing Oh-My-Zsh"
