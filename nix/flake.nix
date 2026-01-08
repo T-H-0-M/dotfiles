@@ -22,6 +22,9 @@
           eas-cli = pkgs.writeShellScriptBin "eas" ''
             exec ${pkgs.nodejs_22}/bin/npx eas-cli "$@"
           '';
+          spotlight = pkgs.writeShellScriptBin "spotlight" ''
+            exec ${pkgs.nodejs_22}/bin/npx @spotlightjs/spotlight "$@"
+          '';
         in
         {
           nixpkgs.config.allowUnfree = true;
@@ -44,6 +47,7 @@
             pkgs.gemini-cli
             pkgs.nodePackages_latest.aws-cdk
             eas-cli
+            spotlight
             pkgs.findutils
           ];
 
@@ -51,12 +55,14 @@
             enable = true;
             brews = [
               "mas"
-              "openjdk@17"
+              "openjdk@21"
               "gradle"
               "maven"
               "awscli"
+              "opencode"
               "go"
               "gh"
+              "localstack"
               "node"
               "tailscale"
             ];
@@ -97,8 +103,8 @@
               "TestFlight" = 899247664;
               "Transporter" = 1450874784;
               "Xcode" = 497799835;
-              "FinalCutPro" = 424389933;
-              "Motion" = 434290957;
+              # "FinalCutPro" = 424389933;
+              # "Motion" = 434290957;
             };
             onActivation.cleanup = "zap";
             onActivation.autoUpdate = true;
