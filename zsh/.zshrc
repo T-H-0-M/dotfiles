@@ -122,40 +122,24 @@ alias cd=z
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 
-# Python user packages path (uses PYTHON_VERSION from .env)
 PYTHON_VERSION=${PYTHON_VERSION:-3.11}
 export PATH="$PATH:$HOME/Library/Python/${PYTHON_VERSION}/bin"
 
-# Java home
-export JAVA_HOME="$(brew --prefix)/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+export JAVA_HOME="$(brew --prefix)/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+export PATH="$(brew --prefix)/opt/openjdk@21/bin:$PATH"
 
-# Android SDK paths (uses ANDROID_HOME from .env)
 ANDROID_HOME=${ANDROID_HOME:-$HOME/Library/Android/sdk}
 export ANDROID_HOME
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# LM Studio CLI (uses LM_STUDIO_PATH from .env)
-LM_STUDIO_PATH=${LM_STUDIO_PATH:-$HOME/.cache/lm-studio/bin}
-export PATH="$PATH:${LM_STUDIO_PATH}"
-
-# Go binary path (uses GO_BIN_PATH from .env)
 GO_BIN_PATH=${GO_BIN_PATH:-$HOME/go/bin}
 export PATH=$PATH:${GO_BIN_PATH}
 
-# MacTeX PATH (uses MACTEX_PATH from .env)
 MACTEX_PATH=${MACTEX_PATH:-/usr/local/texlive/2025/bin/universal-darwin}
 export PATH="${MACTEX_PATH}:$PATH"
 
-# Local binaries
 export PATH="$HOME/.local/bin:$PATH"
 
-# Obsidian Vault Paths (from .env, optional)
-if [[ -n "$OBSIDIAN_PERSONAL_VAULT" ]]; then
-  export OBSIDIAN_PERSONAL_VAULT
-fi
-
-if [[ -n "$OBSIDIAN_WORK_VAULT" ]]; then
-  export OBSIDIAN_WORK_VAULT
-fi
+alias air='~/.air'
