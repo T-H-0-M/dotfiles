@@ -25,3 +25,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- Use 2 space indents for TypeScript and React Native
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+	callback = function()
+		vim.opt_local.tabstop = 2
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.expandtab = true
+	end,
+})
+
