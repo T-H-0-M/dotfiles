@@ -10,7 +10,7 @@ return {
 		local basename = vim.fs.basename(cwd)
 		_99.setup({
 			--- Fix model name - use anthropic provider instead of opencode
-			model = "anthropic/claude-sonnet-4-5",
+			model = "openai/gpt-5.2",
 
 			logger = {
 				level = _99.DEBUG,
