@@ -47,8 +47,23 @@ return {
 	},
 
 	config = function(_, opts)
-		-- Load vscode snippets
-		require("luasnip.loaders.from_vscode").lazy_load()
+		local luasnip = require("luasnip")
+
+		require("luasnip.loaders.from_lua").lazy_load({
+			paths = { vim.fn.stdpath("config") .. "/lua/thomas/snippets" },
+		})
+
+		vim.keymap.set({ "i", "s" }, "<C-l>", function()
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			end
+		end, { silent = true, desc = "LuaSnip: Expand or jump" })
+
+		vim.keymap.set({ "i", "s" }, "<C-h>", function()
+			if luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			end
+		end, { silent = true, desc = "LuaSnip: Jump back" })
 
 		-- Setup blink.cmp
 		require("blink.cmp").setup(opts)
