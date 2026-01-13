@@ -1,6 +1,5 @@
 return {
-	"T-H-0-M/99",
-	branch = "feat/lang-support",
+	"ThePrimeagen/99",
 	config = function()
 		local _99 = require("99")
 

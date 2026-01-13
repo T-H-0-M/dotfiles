@@ -172,15 +172,7 @@ return {
 				-- ESLint is handled by nvim-lint with eslint_d for better performance
 				-- No need for ESLint LSP server when using eslint_d through nvim-lint
 
-				["jdtls"] = function()
-					lspconfig["jdtls"].setup({
-						capabilities = capabilities,
-						on_attach = function(client, bufnr)
-							-- Disable semantic tokens to use treesitter highlighting
-							client.server_capabilities.semanticTokensProvider = nil
-						end,
-					})
-				end,
+				["jdtls"] = function() end,
 
 				-- Configuration for Markdown (marksman)
 				["marksman"] = function()
