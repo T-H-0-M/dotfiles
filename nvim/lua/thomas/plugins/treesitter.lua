@@ -23,6 +23,7 @@ return {
 				"json",
 				"javascript",
 				"java",
+				"http",
 				"typescript",
 				"tsx",
 				"yaml",

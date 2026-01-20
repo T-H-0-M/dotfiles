@@ -6,6 +6,7 @@ vim.filetype.add({
 		mdown = "markdown",
 		mkd = "markdown",
 		mkdn = "markdown",
+		http = "http",
 		dockerfile = "dockerfile",
 		Dockerfile = "dockerfile",
 	},
@@ -34,4 +35,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.expandtab = true
 	end,
 })
-
