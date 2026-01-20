@@ -131,6 +131,15 @@ local function repo_entity_type_from_repo(args)
 	return sn(nil, i(1, base))
 end
 
+local function test_subject_type_from_test_class(args)
+	local test_class_name = args[1][1] or ""
+	local base = strip_suffix(test_class_name, "Test")
+	if base == "" then
+		base = "Subject"
+	end
+	return sn(nil, i(1, base))
+end
+
 local snippets = {
 	s(
 		{ trig = "spsvc", name = "Spring Service", dscr = "@Service class (constructor injection)" },
@@ -273,6 +282,67 @@ public interface {RepoName} extends JpaRepository<{EntityType}, {IdType}> {{
 				EntityType = d(3, repo_entity_type_from_repo, { 2 }),
 				IdType = i(4, "Long"),
 				finish = i(0),
+			}
+		)
+	),
+
+	s(
+		{ trig = "jclass", name = "Java Class", dscr = "Plain Java class skeleton" },
+		fmta(
+			[[
+package <pkg>;
+
+public class <ClassName> {
+
+    public <ClassNameRep>() {
+    }
+
+    <finish>
+}
+]],
+			{
+				pkg = d(1, pkg_node, {}),
+				ClassName = d(2, class_name_node("MyClass"), {}),
+				ClassNameRep = rep(2),
+				finish = i(0),
+			}
+		)
+	),
+
+	s(
+		{ trig = "jtest", name = "JUnit Test", dscr = "JUnit 5 test class skeleton" },
+		fmta(
+			[[
+package <pkg>;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class <TestClassName> {
+
+    private <SubjectType> <subjectVar>;
+
+    @BeforeEach
+    void setUp() {
+        <subjectVarRep> = new <SubjectTypeRep>();
+    }
+
+    @Test
+    void constructs() {
+        assertNotNull(<subjectVarRep2>);
+    }
+}
+]],
+			{
+				pkg = d(1, pkg_node, {}),
+				TestClassName = d(2, class_name_node("MyClassTest"), {}),
+				SubjectType = d(3, test_subject_type_from_test_class, { 2 }),
+				SubjectTypeRep = rep(3),
+				subjectVar = d(4, var_from_type, { 3 }),
+				subjectVarRep = rep(4),
+				subjectVarRep2 = rep(4),
 			}
 		)
 	),
