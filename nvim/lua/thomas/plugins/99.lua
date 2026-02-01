@@ -1,7 +1,111 @@
 return {
 	"ThePrimeagen/99",
+	dependencies = {
+		"hrsh7th/nvim-cmp",
+	},
 	config = function()
 		local _99 = require("99")
+
+		local function ensure_tmp_dir(tmp_file)
+			local dir = vim.fn.fnamemodify(tmp_file, ":h")
+			if dir and dir ~= "" then
+				vim.fn.mkdir(dir, "p")
+			end
+		end
+
+		local DevNullObserver = {
+			on_stdout = function() end,
+			on_stderr = function() end,
+			on_complete = function() end,
+		}
+
+		local function once(fn)
+			local called = false
+			return function(...)
+				if called then
+					return
+				end
+				called = true
+				fn(...)
+			end
+		end
+
+		local OpenCodeHighProvider = {
+			make_request = function(_, query, request, observer)
+				local logger = request.logger:set_area("OpenCodeHighProvider")
+				observer = observer or DevNullObserver
+
+				ensure_tmp_dir(request.context.tmp_file)
+
+				local once_complete = once(function(status, text)
+					observer.on_complete(status, text)
+				end)
+
+				local command = {
+					"opencode",
+					"run",
+					"--variant",
+					"high",
+					"-m",
+					request.context.model,
+					query,
+				}
+
+				local proc = vim.system(
+					command,
+					{
+						text = true,
+						stdout = vim.schedule_wrap(function(err, data)
+							if request:is_cancelled() then
+								once_complete("cancelled", "")
+								return
+							end
+							if not err and data then
+								observer.on_stdout(data)
+							end
+						end),
+						stderr = vim.schedule_wrap(function(err, data)
+							if request:is_cancelled() then
+								once_complete("cancelled", "")
+								return
+							end
+							if not err then
+								observer.on_stderr(data)
+							end
+						end),
+					},
+					vim.schedule_wrap(function(obj)
+						if request:is_cancelled() then
+							once_complete("cancelled", "")
+							return
+						end
+						if obj.code ~= 0 then
+							local str = string.format(
+								"process exit code: %d\n%s",
+								obj.code,
+								vim.inspect(obj)
+							)
+							once_complete("failed", str)
+							logger:error("opencode run failed", "obj", obj)
+							return
+						end
+
+						vim.schedule(function()
+							local ok, res = pcall(function()
+								return vim.fn.readfile(request.context.tmp_file)
+							end)
+							if not ok then
+								once_complete("failed", "unable to retrieve response from llm")
+								return
+							end
+							once_complete("success", table.concat(res, "\n"))
+						end)
+					end)
+				)
+
+				request:_set_process(proc)
+			end,
+		}
 
 		-- For logging that is to a file if you wish to trace through requests
 		-- for reporting bugs, i would not rely on this, but instead the provided
@@ -9,13 +113,42 @@ return {
 		local cwd = vim.uv.cwd()
 		local basename = vim.fs.basename(cwd)
 		_99.setup({
-			--- Fix model name - use anthropic provider instead of opencode
-			model = "openai/gpt-5.2",
-
 			logger = {
 				level = _99.DEBUG,
 				path = "/tmp/" .. basename .. ".99.debug",
 				print_on_error = true,
+			},
+			provider = OpenCodeHighProvider,
+			model = "openai/gpt-5.2",
+
+			--- A new feature that is centered around tags
+			completion = {
+				--- Defaults to .cursor/rules
+				-- I am going to disable these until i understand the
+				-- problem better.  Inside of cursor rules there is also
+				-- application rules, which means i need to apply these
+				-- differently
+				-- cursor_rules = "<custom path to cursor rules>"
+
+				--- A list of folders where you have your own SKILL.md
+				--- Expected format:
+				--- /path/to/dir/<skill_name>/SKILL.md
+				---
+				--- Example:
+				--- Input Path:
+				--- "scratch/custom_rules/"
+				---
+				--- Output Rules:
+				--- {path = "scratch/custom_rules/vim/SKILL.md", name = "vim"},
+				--- ... the other rules in that dir ...
+				---
+				custom_rules = {
+					"scratch/custom_rules/",
+				},
+
+				--- What autocomplete do you use.  We currently only
+				--- support cmp right now
+				source = "cmp",
 			},
 
 			--- WARNING: if you change cwd then this is likely broken
@@ -30,9 +163,6 @@ return {
 			md_files = {
 				"AGENT.md",
 			},
-
-			--- Enable Go and Java language support
-			languages = { "lua", "go", "java" },
 		})
 
 		-- Create your own short cuts for the different types of actions
@@ -47,12 +177,20 @@ return {
 		-- likely ill add a mode check and assert on required visual mode
 		-- so just prepare for it now
 		vim.keymap.set("v", "<leader>9v", function()
-			_99.visual()
+			_99.visual_prompt()
 		end)
 
 		--- if you have a request you dont want to make any changes, just cancel it
 		vim.keymap.set("v", "<leader>9s", function()
 			_99.stop_all_requests()
+		end)
+
+		--- Example: Using rules + actions for custom behaviors
+		--- Create a rule file like ~/.rules/debug.md that defines custom behavior.
+		--- For instance, a "debug" rule could automatically add printf statements
+		--- throughout a function to help debug its execution flow.
+		vim.keymap.set("n", "<leader>9fd", function()
+			_99.fill_in_function()
 		end)
 	end,
 }
