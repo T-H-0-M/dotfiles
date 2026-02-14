@@ -64,6 +64,8 @@
               "gh"
               "localstack"
               "node"
+              "stylua"
+              "lua"
               "tailscale"
             ];
             casks = [
