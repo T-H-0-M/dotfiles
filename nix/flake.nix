@@ -66,6 +66,7 @@
               "node"
               "stylua"
               "lua"
+              "bazel"
               "tailscale"
             ];
             casks = [
