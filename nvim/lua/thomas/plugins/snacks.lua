@@ -3,6 +3,10 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
+	keys = {
+		{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git status" },
+		{ "<leader>gd", function() Snacks.picker.git_diff({ group = true }) end, desc = "Git diff" },
+	},
 	---@type snacks.Config
 	opts = {
 		-- refer to the configuration section below
@@ -29,6 +33,7 @@ return {
 			},
 		},
 		dashboard = { enabled = true },
+		picker = { enabled = true },
 		indent = {
 			enabled = true,
 			animate = {

@@ -33,6 +33,7 @@
             pkgs.tmux
             pkgs.ffmpeg_6-full
             pkgs.git
+            pkgs.go_1_25
             pkgs.fzf
             pkgs.ripgrep
             pkgs.lazygit
@@ -60,7 +61,6 @@
               "maven"
               "awscli"
               "opencode"
-              "go"
               "gh"
               "localstack"
               "node"
