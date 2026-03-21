@@ -1,0 +1,45 @@
+{
+    "window.commandCenter": true,
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "vim.leader": "<space>",
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>", "s", "h"],
+            "commands": ["workbench.action.splitEditorDown"]
+        },
+        {
+            "before": ["<leader>", "s", "v"],
+            "commands": ["workbench.action.splitEditorRight"]
+        },
+        {
+            "before": ["<leader>", "f", "f"],
+            "commands": ["workbench.action.quickOpen"]
+        },
+        {
+            "before": ["<leader>", "f", "s"],
+            "commands": ["workbench.action.findInFiles"]
+        },
+        {
+            "before": ["<C-h>"],
+            "commands": ["workbench.action.focusLeftGroup"]
+        },
+        {
+            "before": ["<C-l>"],
+            "commands": ["workbench.action.focusRightGroup"]
+        },
+        {
+            "before": ["<C-k>"],
+            "commands": ["workbench.action.focusAboveGroup"]
+        },
+        {
+            "before": ["<C-j>"],
+            "commands": ["workbench.action.focusBelowGroup"]
+        }
+    ]
+}
