@@ -33,7 +33,7 @@
             pkgs.tmux
             pkgs.ffmpeg_6-full
             pkgs.git
-            pkgs.go_1_25
+            pkgs.go
             pkgs.fzf
             pkgs.ripgrep
             pkgs.lazygit
@@ -71,6 +71,7 @@
             ];
             casks = [
               "firefox"
+              "cursor"
               "chatgpt"
               "alacritty"
               "google-chrome"

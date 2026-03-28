@@ -8,3 +8,5 @@ nix/flake.lock
 .claude/statsig
 .claude/todos
 .claude/history.jsonl
+/dotctl
+node_modules/
