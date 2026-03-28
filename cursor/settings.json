@@ -1,45 +1,70 @@
 {
-    "window.commandCenter": true,
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "vim.leader": "<space>",
-    "vim.insertModeKeyBindingsNonRecursive": [
-        {
-            "before": ["j", "k"],
-            "after": ["<Esc>"]
-        }
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["<leader>", "s", "h"],
-            "commands": ["workbench.action.splitEditorDown"]
-        },
-        {
-            "before": ["<leader>", "s", "v"],
-            "commands": ["workbench.action.splitEditorRight"]
-        },
-        {
-            "before": ["<leader>", "f", "f"],
-            "commands": ["workbench.action.quickOpen"]
-        },
-        {
-            "before": ["<leader>", "f", "s"],
-            "commands": ["workbench.action.findInFiles"]
-        },
-        {
-            "before": ["<C-h>"],
-            "commands": ["workbench.action.focusLeftGroup"]
-        },
-        {
-            "before": ["<C-l>"],
-            "commands": ["workbench.action.focusRightGroup"]
-        },
-        {
-            "before": ["<C-k>"],
-            "commands": ["workbench.action.focusAboveGroup"]
-        },
-        {
-            "before": ["<C-j>"],
-            "commands": ["workbench.action.focusBelowGroup"]
-        }
-    ]
+  "window.commandCenter": true,
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "vim.leader": "<space>",
+  "editor.lineNumbers": "relative",
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j", "k"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "l", "g"],
+      "commands": ["workbench.view.scm"]
+    },
+    {
+      "before": ["<leader>", "a", "i"],
+      "commands": ["workbench.action.toggleAuxiliaryBar"]
+    },
+    {
+      "before": ["<leader>", "e", "e"],
+      "commands": ["workbench.view.explorer"]
+    },
+    {
+      "before": ["<leader>", "s", "h"],
+      "commands": ["workbench.action.splitEditorDown"]
+    },
+    {
+      "before": ["<leader>", "s", "x"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    },
+    {
+      "before": ["<leader>", "s", "v"],
+      "commands": ["workbench.action.splitEditorRight"]
+    },
+    {
+      "before": ["<leader>", "f", "f"],
+      "commands": ["workbench.action.quickOpen"]
+    },
+    {
+      "before": ["<leader>", "f", "s"],
+      "commands": ["workbench.action.findInFiles"]
+    },
+    {
+      "before": ["<C-h>"],
+      "commands": ["workbench.action.focusLeftGroup"]
+    },
+    {
+      "before": ["<C-l>"],
+      "commands": ["workbench.action.focusRightGroup"]
+    },
+    {
+      "before": ["<C-k>"],
+      "commands": ["workbench.action.focusAboveGroup"]
+    },
+    {
+      "before": ["<C-j>"],
+      "commands": ["workbench.action.focusBelowGroup"]
+    }
+  ],
+  "git.confirmSync": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "remote.SSH.remotePlatform": {
+    "homelab": "linux"
+  }
 }
