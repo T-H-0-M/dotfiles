@@ -33,7 +33,17 @@ return {
 			},
 		},
 		dashboard = { enabled = true },
-		picker = { enabled = true },
+		picker = {
+			enabled = true,
+			sources = {
+				files = {
+					exclude = { "node_modules", "venv", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp" },
+				},
+				grep = {
+					exclude = { "node_modules", "venv" },
+				},
+			},
+		},
 		indent = {
 			enabled = true,
 			animate = {

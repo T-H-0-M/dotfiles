@@ -51,8 +51,5 @@ return {
 			end,
 		})
 
-		pcall(function()
-			require("telescope").load_extension("rest")
-		end)
 	end,
 }

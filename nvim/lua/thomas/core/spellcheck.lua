@@ -1,8 +1,10 @@
-vim.cmd([[set spell]])
-vim.cmd([[set spelllang=en_au]])
+vim.opt.spell = false
+vim.opt.spelllang = "en_au"
 
--- INFO: Only enable spelling in LaTeX files
+-- Enable spelling only for markdown files
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "tex",
-	command = "setlocal spell",
+	pattern = { "markdown", "mdx" },
+	callback = function()
+		vim.opt_local.spell = true
+	end,
 })

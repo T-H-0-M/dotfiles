@@ -1,5 +1,3 @@
-vim.cmd("let g:netrw_liststyle = 3")
-
 local opt = vim.opt
 
 opt.relativenumber = true
@@ -30,9 +28,6 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.swapfile = false
-
--- Set local leader key for plugins like VimTeX
-vim.g.maplocalleader = ","
 
 -- Disable semantic tokens globally to use Tree-sitter highlighting
 vim.api.nvim_create_autocmd("LspAttach", {

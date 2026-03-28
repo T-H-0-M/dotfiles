@@ -8,7 +8,6 @@ return {
 				"typescript",
 				"javascriptreact",
 				"typescriptreact",
-				"svelte",
 				"vue",
 				"tsx",
 				"jsx",

@@ -4,18 +4,11 @@ return {
 	config = function()
 		local conform = require("conform")
 		conform.setup({
-			formatters = {
-				latexindent = {
-					command = "latexindent",
-					args = { "--local", "--silent", "--modifylinebreaks" },
-				},
-			},
 			formatters_by_ft = {
 				javascript = { "eslint_d", "prettier" },
 				typescript = { "eslint_d", "prettier" },
 				javascriptreact = { "eslint_d", "prettier" },
 				typescriptreact = { "eslint_d", "prettier" },
-				svelte = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
@@ -29,8 +22,6 @@ return {
 				python = { "isort", "black" },
 				toml = { "taplo" },
 				go = { "goimports", "gofumpt" },
-				tex = { "latexindent" },
-				latex = { "latexindent" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

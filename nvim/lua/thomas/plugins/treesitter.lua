@@ -4,7 +4,6 @@ return {
 	build = ":TSUpdate",
 	dependencies = {
 		"windwp/nvim-ts-autotag",
-		"nvim-treesitter/playground",
 	},
 	config = function()
 		local treesitter = require("nvim-treesitter.configs")
@@ -15,14 +14,11 @@ return {
 		treesitter.setup({ -- enable syntax highlighting
 			highlight = {
 				enable = true,
-				-- Disable for tex files - let vimtex handle syntax highlighting
-				disable = { "latex", "tex" },
 			},
 			indent = { enable = true },
 			ensure_installed = {
 				"json",
 				"javascript",
-				"java",
 				"http",
 				"typescript",
 				"tsx",
@@ -32,7 +28,6 @@ return {
 				"prisma",
 				"markdown",
 				"markdown_inline",
-				"svelte",
 				"bash",
 				"lua",
 				"vim",
@@ -40,7 +35,6 @@ return {
 				"gitignore",
 				"query",
 				"vimdoc",
-				"c",
 				"nix",
 				"toml",
 				"xml",
@@ -50,7 +44,6 @@ return {
 				"gomod",
 				"gosum",
 				"gowork",
-				"bibtex",
 			},
 			incremental_selection = {
 				enable = true,
