@@ -41,6 +41,6 @@ return {
 			callback = safe_lint,
 		})
 
-		vim.keymap.set("n", "<leader>l", safe_lint, { desc = "Trigger linting for current file" })
+		vim.keymap.set("n", "<leader>ll", safe_lint, { desc = "Trigger linting for current file" })
 	end,
 }

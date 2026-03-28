@@ -1,10 +1,10 @@
 return {
 	"ThePrimeagen/99",
-	dependencies = {
-		"hrsh7th/nvim-cmp",
-	},
+	dependencies = { "hrsh7th/nvim-cmp" },
 	config = function()
 		local _99 = require("99")
+		local worker = _99.Extensions.Worker
+		local default_model = "openai/gpt-5.3-codex"
 
 		local function ensure_tmp_dir(tmp_file)
 			local dir = vim.fn.fnamemodify(tmp_file, ":h")
@@ -31,11 +31,14 @@ return {
 		end
 
 		local OpenCodeHighProvider = {
-			make_request = function(_, query, request, observer)
-				local logger = request.logger:set_area("OpenCodeHighProvider")
+			make_request = function(_, query, context, observer)
+				local logger = context.logger:set_area("OpenCodeHighProvider")
 				observer = observer or DevNullObserver
+				if observer.on_start then
+					observer.on_start()
+				end
 
-				ensure_tmp_dir(request.context.tmp_file)
+				ensure_tmp_dir(context.tmp_file)
 
 				local once_complete = once(function(status, text)
 					observer.on_complete(status, text)
@@ -47,7 +50,7 @@ return {
 					"--variant",
 					"high",
 					"-m",
-					request.context.model,
+					context.model or default_model,
 					query,
 				}
 
@@ -56,7 +59,7 @@ return {
 					{
 						text = true,
 						stdout = vim.schedule_wrap(function(err, data)
-							if request:is_cancelled() then
+							if context:is_cancelled() then
 								once_complete("cancelled", "")
 								return
 							end
@@ -65,7 +68,7 @@ return {
 							end
 						end),
 						stderr = vim.schedule_wrap(function(err, data)
-							if request:is_cancelled() then
+							if context:is_cancelled() then
 								once_complete("cancelled", "")
 								return
 							end
@@ -75,7 +78,7 @@ return {
 						end),
 					},
 					vim.schedule_wrap(function(obj)
-						if request:is_cancelled() then
+						if context:is_cancelled() then
 							once_complete("cancelled", "")
 							return
 						end
@@ -92,7 +95,7 @@ return {
 
 						vim.schedule(function()
 							local ok, res = pcall(function()
-								return vim.fn.readfile(request.context.tmp_file)
+								return vim.fn.readfile(context.tmp_file)
 							end)
 							if not ok then
 								once_complete("failed", "unable to retrieve response from llm")
@@ -103,7 +106,7 @@ return {
 					end)
 				)
 
-				request:_set_process(proc)
+				context:_set_process(proc)
 			end,
 		}
 
@@ -119,78 +122,40 @@ return {
 				print_on_error = true,
 			},
 			provider = OpenCodeHighProvider,
-			model = "openai/gpt-5.2",
-
-			--- A new feature that is centered around tags
+			model = default_model,
 			completion = {
-				--- Defaults to .cursor/rules
-				-- I am going to disable these until i understand the
-				-- problem better.  Inside of cursor rules there is also
-				-- application rules, which means i need to apply these
-				-- differently
-				-- cursor_rules = "<custom path to cursor rules>"
-
-				--- A list of folders where you have your own SKILL.md
-				--- Expected format:
-				--- /path/to/dir/<skill_name>/SKILL.md
-				---
-				--- Example:
-				--- Input Path:
-				--- "scratch/custom_rules/"
-				---
-				--- Output Rules:
-				--- {path = "scratch/custom_rules/vim/SKILL.md", name = "vim"},
-				--- ... the other rules in that dir ...
-				---
 				custom_rules = {
 					"scratch/custom_rules/",
 				},
-
-				--- What autocomplete do you use.  We currently only
-				--- support cmp right now
 				source = "cmp",
 			},
-
-			--- WARNING: if you change cwd then this is likely broken
-			--- ill likely fix this in a later change
-			---
-			--- md_files is a list of files to look for and auto add based on the location
-			--- of the originating request.  That means if you are at /foo/bar/baz.lua
-			--- the system will automagically look for:
-			--- /foo/bar/AGENT.md
-			--- /foo/AGENT.md
-			--- assuming that /foo is project root (based on cwd)
 			md_files = {
 				"AGENT.md",
 			},
 		})
 
-		-- Create your own short cuts for the different types of actions
-		vim.keymap.set("n", "<leader>9f", function()
-			_99.fill_in_function()
-		end)
-		-- take extra note that i have visual selection only in v mode
-		-- technically whatever your last visual selection is, will be used
-		-- so i have this set to visual mode so i dont screw up and use an
-		-- old visual selection
-		--
-		-- likely ill add a mode check and assert on required visual mode
-		-- so just prepare for it now
+		vim.keymap.set("n", "<leader>ss", function()
+			_99.search()
+		end, { desc = "99 search" })
+
+		vim.keymap.set("n", "<leader>vv", function()
+			_99.search()
+		end, { desc = "99 search prompt" })
+
+		vim.keymap.set("n", "<leader>ww", function()
+			worker.set_work()
+		end, { desc = "99 set work" })
+
+		vim.keymap.set("n", "<leader>9s", function()
+			_99.search()
+		end, { desc = "99 search" })
+
 		vim.keymap.set("v", "<leader>9v", function()
-			_99.visual_prompt()
-		end)
+			_99.visual()
+		end, { desc = "99 visual prompt" })
 
-		--- if you have a request you dont want to make any changes, just cancel it
-		vim.keymap.set("v", "<leader>9s", function()
+		vim.keymap.set("n", "<leader>9x", function()
 			_99.stop_all_requests()
-		end)
-
-		--- Example: Using rules + actions for custom behaviors
-		--- Create a rule file like ~/.rules/debug.md that defines custom behavior.
-		--- For instance, a "debug" rule could automatically add printf statements
-		--- throughout a function to help debug its execution flow.
-		vim.keymap.set("n", "<leader>9fd", function()
-			_99.fill_in_function()
-		end)
+		end, { desc = "99 stop requests" })
 	end,
 }
