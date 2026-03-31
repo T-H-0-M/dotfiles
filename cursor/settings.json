@@ -58,6 +58,10 @@
     {
       "before": ["<C-j>"],
       "commands": ["workbench.action.focusBelowGroup"]
+    },
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"]
     }
   ],
   "git.confirmSync": false,
