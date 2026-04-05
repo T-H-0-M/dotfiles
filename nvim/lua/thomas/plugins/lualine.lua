@@ -2,23 +2,9 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
-		-- Load the nanode theme and customize it
-		local custom_theme = require("lualine.themes.nanode")
-
-		-- Set black text for the b sections (blue background sections)
-		-- This applies to all modes: normal, insert, visual, replace, command, inactive
-		for _, mode in pairs(custom_theme) do
-			if mode.a then
-				mode.a.fg = "#000000"
-			end
-			if mode.z then
-				mode.z.fg = "#000000"
-			end
-		end
-
 		require("lualine").setup({
 			options = {
-				theme = custom_theme,
+				theme = "gruvbox",
 				globalstatus = true,
 				icons_enabled = true,
 				component_separators = { left = "", right = "" },
