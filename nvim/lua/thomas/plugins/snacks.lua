@@ -36,14 +36,51 @@ return {
 		picker = {
 			enabled = true,
 			sources = {
+				explorer = {
+					hidden = true,
+					ignored = true,
+					jump = { close = true },
+					layout = {
+						preset = "vertical",
+						preview = false,
+						layout = {
+							width = 0.5,
+							height = 0.8,
+							border = "rounded",
+						},
+					},
+				},
 				files = {
-					exclude = { "node_modules", "venv", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp" },
+					hidden = true,
+					ignored = true,
+					exclude = {
+						"node_modules", "**/node_modules/**",
+						".git", "**/.git/**",
+						"dist", "**/dist/**",
+						"build", "**/build/**",
+						".next", "**/.next/**",
+						".expo", "**/.expo/**",
+						"ios", "**/ios/**",
+						"android", "**/android/**",
+					},
 				},
 				grep = {
-					exclude = { "node_modules", "venv" },
+					hidden = true,
+					ignored = true,
+					exclude = {
+						"node_modules", "**/node_modules/**",
+						".git", "**/.git/**",
+						"dist", "**/dist/**",
+						"build", "**/build/**",
+						".next", "**/.next/**",
+						".expo", "**/.expo/**",
+						"ios", "**/ios/**",
+						"android", "**/android/**",
+					},
 				},
 			},
 		},
+		explorer = { enabled = true },
 		indent = {
 			enabled = true,
 			animate = {
@@ -55,7 +92,7 @@ return {
 				},
 			},
 		},
-		lazygit = { enabled = true },
+		lazygit = { enabled = false },
 		git = { enabled = true },
 	},
 }

@@ -23,9 +23,6 @@ keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }
 keymap.set("n", "<Leader>nw", "<C-w>w", { noremap = true, silent = true }) -- switch to next window
 keymap.set("n", "<Leader>pw", "<C-w>W", { noremap = true, silent = true }) -- switch to previous window
 
--- Lazy Git (via snacks.nvim)
-keymap.set("n", "<leader>lg", function() Snacks.lazygit() end, { desc = "Lazy Git" })
-
 -- Tmux Sessionizer
 keymap.set("n", "<leader>fp", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux Sessionizer" })
 
@@ -36,11 +33,44 @@ keymap.set("n", "<leader>fs", function() Snacks.picker.grep() end, { desc = "Fin
 keymap.set("n", "<leader>fc", function() Snacks.picker.grep_word() end, { desc = "Find string under cursor in cwd" })
 keymap.set("n", "<leader>ft", function() Snacks.picker.todo_comments() end, { desc = "Find todos" })
 
--- nvim-tree
-vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" })
-vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
-vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
+-- Explorer (snacks.explorer)
+local function get_explorer_picker()
+	return Snacks.picker.get({ source = "explorer" })[1]
+end
+
+keymap.set("n", "<leader>ee", function()
+	local explorer = get_explorer_picker()
+	if explorer then
+		explorer:close()
+	else
+		Snacks.explorer({ jump = { close = true } })
+	end
+end, { desc = "Toggle file explorer" })
+
+keymap.set("n", "<leader>ef", function()
+	local explorer = get_explorer_picker()
+	if explorer then
+		explorer:close()
+	else
+		Snacks.explorer({ follow_file = true, jump = { close = true } })
+	end
+end, { desc = "Toggle file explorer on current file" })
+
+keymap.set("n", "<leader>ec", function()
+	local explorer = get_explorer_picker()
+	if explorer then
+		explorer:action("explorer_close_all")
+	end
+end, { desc = "Collapse file explorer" })
+
+keymap.set("n", "<leader>er", function()
+	local explorer = get_explorer_picker()
+	if explorer then
+		explorer:action("explorer_update")
+	else
+		Snacks.explorer({ jump = { close = true } })
+	end
+end, { desc = "Refresh file explorer" })
 
 vim.keymap.set("n", "<leader>gb", function()
 	require("snacks").git.blame_line()

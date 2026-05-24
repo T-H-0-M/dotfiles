@@ -11,10 +11,6 @@ return {
 			PmenuSel = { bg = "NONE" },
 			PmenuSbar = { bg = "NONE" },
 			PmenuThumb = { bg = "NONE" },
-			NvimTreeNormal = { bg = "NONE" },
-			NvimTreeEndOfBuffer = { bg = "NONE" },
-			NvimTreeWinSeparator = { bg = "NONE" },
-			NvimTreeNormalFloat = { bg = "NONE" },
 		},
 	},
 	config = function(_, opts)

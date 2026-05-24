@@ -49,6 +49,7 @@ return {
 				"eslint_d",
 				"hadolint",
 				"golangci-lint",
+				"rust-analyzer",
 			},
 		})
 	end,

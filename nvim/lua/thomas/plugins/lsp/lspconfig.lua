@@ -88,7 +88,19 @@ return {
 				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
-				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+				keymap.set("n", "<leader>rs", function()
+					if vim.fn.exists(":lsp") == 2 then
+						vim.cmd("lsp restart")
+						return
+					end
+
+					if vim.fn.exists(":LspRestart") == 2 then
+						vim.cmd("LspRestart")
+						return
+					end
+
+					vim.notify("No LSP restart command available", vim.log.levels.WARN)
+				end, opts)
 			end,
 		})
 

@@ -47,6 +47,8 @@ return {
 				local command = {
 					"opencode",
 					"run",
+					"--agent",
+					"build",
 					"--variant",
 					"high",
 					"-m",
@@ -134,21 +136,25 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>ss", function()
-			_99.search()
-		end, { desc = "99 search" })
-
-		vim.keymap.set("n", "<leader>vv", function()
-			_99.search()
-		end, { desc = "99 search prompt" })
-
-		vim.keymap.set("n", "<leader>ww", function()
+		vim.keymap.set("n", "<leader>9w", function()
 			worker.set_work()
 		end, { desc = "99 set work" })
 
 		vim.keymap.set("n", "<leader>9s", function()
+			worker.search()
+		end, { desc = "99 work search" })
+
+		vim.keymap.set("n", "<leader>9a", function()
+			worker.vibe()
+		end, { desc = "99 work vibe" })
+
+		vim.keymap.set("n", "<leader>9S", function()
 			_99.search()
-		end, { desc = "99 search" })
+		end, { desc = "99 ad-hoc search" })
+
+		vim.keymap.set("n", "<leader>9V", function()
+			_99.vibe()
+		end, { desc = "99 ad-hoc vibe" })
 
 		vim.keymap.set("v", "<leader>9v", function()
 			_99.visual()
